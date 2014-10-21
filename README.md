@@ -1,4 +1,4 @@
-# Force Server
+# force-server
 
 force-server is a simple development server for Force.com. It provides two key features:
 
@@ -9,13 +9,13 @@ There are different options to use force-server:
 
 ## Option 1: Install as a CLI
 
-1. Install the server
+1. Install the force-server CLI
 
     ```
     npm install -g force-server
     ```
     
-    or (Unix-based operating systems)
+    or (Unix-based systems)
 
     ```
     sudo npm install -g force-server

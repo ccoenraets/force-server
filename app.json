@@ -1,7 +1,7 @@
 {
-    "name": "Cors Proxy",
-    "description": "Sample Cors Proxy",
-    "repository": "https://github.com/ccoenraets/cors-proxy",
+    "name": "Force Server",
+    "description": "Simple development server for Force.com. Includes Server and Local Web Server.",
+    "repository": "https://github.com/ccoenraets/force-server",
     "logo": "https://node-js-sample.herokuapp.com/node.svg",
-    "keywords": ["cors", "nodejs", "proxy", "salesforce", "rest"]
+    "keywords": ["cors", "nodejs", "proxy", "salesforce", "rest", "force.com"]
 }
