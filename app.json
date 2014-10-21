@@ -1,7 +1,11 @@
 {
     "name": "Force Server",
-    "description": "Simple development server for Force.com. Includes Server and Local Web Server.",
+    "description": "Simple development server for Force.com. Includes a CORS Proxy Server for Salesforce REST API calls, and a Web Server to load application assets.",
     "repository": "https://github.com/ccoenraets/force-server",
-    "logo": "https://node-js-sample.herokuapp.com/node.svg",
-    "keywords": ["cors", "nodejs", "proxy", "salesforce", "rest", "force.com"]
+    "logo": "https://developer.salesforce.com/resource/images/platform-force-cloud.png",
+    "keywords": ["cors", "nodejs", "proxy", "salesforce", "rest", "force.com"],
+    "env": {
+        "WEBROOT": "",
+        "PORT": "5000"
+    }
 }

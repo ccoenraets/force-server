@@ -3,15 +3,15 @@ var express = require('express'),
     request = require('request'),
     bodyParser = require('body-parser'),
     app = express(),
-    root = '',
+    webRoot = '',
     port = 5000,
-    rootFullPath;
+    webRootFullPath;
 
 
 if (process.argv[2]) {
-    root = process.argv[2];
+    webRoot = process.argv[2];
 } else if (process.env.ROOT) {
-    root = process.env.ROOT;
+    webRoot = process.env.ROOT;
 };
 
 if (process.argv[3]) {
@@ -20,11 +20,11 @@ if (process.argv[3]) {
     port = process.env.PORT;
 };
 
-rootFullPath = path.join(process.cwd(), root);
+webRootFullPath = path.join(process.cwd(), webRoot);
 
 app.use(bodyParser.json());
 
-app.use(express.static(rootFullPath));
+app.use(express.static(webRootFullPath));
 
 app.all('*', function (req, res, next) {
 
@@ -54,5 +54,5 @@ app.all('*', function (req, res, next) {
 
 app.listen(port, function () {
     console.log('force-server listening on port ' + port);
-    console.log('web root: ' + rootFullPath);
+    console.log('web root: ' + webRootFullPath);
 });

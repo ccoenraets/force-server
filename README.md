@@ -24,10 +24,10 @@ There are different options to use force-server:
 1. Start the server
 
     ```
-    force-server [path] [port]
+    force-server [webRoot] [port]
     ``` 
     
-    - **path**: path to the web root directory relative to the current directory. The default is the current directory.
+    - **webRoot**: path to the web root directory relative to the current directory. The default is the current directory.
     - **port**: server port number. The default is 5000.     
 
     Examples:
@@ -70,7 +70,7 @@ There are different options to use force-server:
 1. Start the server
     
     ```
-    node server [path] [port]
+    node server [webRoot] [port]
     ```
 
 
