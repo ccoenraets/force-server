@@ -37,15 +37,15 @@ There are different options to use force-server:
     force-server
     ```
 
-    - To start force-server on port 5000 (default) and serve files in the ***www** directory (relative to the current directory):
-        ```
-        force-server www
-        ```
+    To start force-server on port 5000 (default) and serve files in the ***www** directory (relative to the current directory):
+    ```
+    force-server www
+    ```
 
-    - To start force-server on port 8000 and serve files in the ***www** directory (relative to the current directory):
-        ```
-        force-server www 8000
-        ```
+    To start force-server on port 8000 and serve files in the ***www** directory (relative to the current directory):
+    ```
+    force-server www 8000
+    ```
 
 ## Option 2: Install a local version
 
