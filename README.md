@@ -1,9 +1,9 @@
-# force-server
+# Force Server
 
 force-server is a simple development server for Force.com. It provides two key features:
 
-- Proxy server to avoid cross domain policy issues when making REST API calls to Salesforce.
-- Local web server to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
+- **Proxy Server**: allows you to avoid cross domain policy issues when making REST API calls to Salesforce
+- **Local Web Server**: allows you to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
 
 There are different options to use force-server:
 
@@ -79,8 +79,7 @@ When making an API call using JavaScript (using XMLHTTPRequest, $.ajax, etc):
 
 These steps are automated when using the [ForceJS](https://github.com/ccoenraets/forcejs) REST Library
 
-## Uninstalling 
-
+## Uninstalling the CLI
     ```
     npm -g rm force-server
     ```
