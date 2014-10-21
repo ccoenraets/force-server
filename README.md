@@ -30,6 +30,20 @@ There are different options to use force-server:
     - **path**: path to the web root directory. The default is the current directory.
     - **port**: server port number. The default is 5000.     
 
+    - To start force-server and serve files in the current directory:
+        ```
+        force-server
+        ```
+
+    - To start force-server and serve files in the ***www** directory (relative to the current directory):
+        ```
+        force-server www
+        ```
+
+    - To start force-server on port 8000 and serve files in the ***www** directory (relative to the current directory):
+        ```
+        force-server www 5000
+        ```
 
 ## Option 2: Install a local version
 

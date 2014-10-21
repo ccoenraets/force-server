@@ -1,4 +1,5 @@
 var express = require('express'),
+    path = require('path'),
     request = require('request'),
     bodyParser = require('body-parser'),
     app = express(),
@@ -19,9 +20,11 @@ if (process.argv[3]) {
     port = process.env.PORT;
 };
 
+rootFullPath = path.join(process.cwd(), root);
+
 app.use(bodyParser.json());
 
-app.use(express.static('./' + root));
+app.use(express.static(rootFullPath));
 
 app.all('*', function (req, res, next) {
 
