@@ -1,9 +1,9 @@
 # force-server
 
-force-server is a simple development server for Force.com. It provides two key features:
+force-server is a simple development server for Force.com. It provides two main features:
 
-- **Proxy Server**: allows you to avoid cross domain policy issues when making REST API calls to Salesforce
-- **Local Web Server**: allows you to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
+- **A Proxy Server**: allows you to avoid cross domain policy issues when making REST API calls to Salesforce
+- **A Local Web Server**: allows you to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
 
 There are different options to use force-server:
 
@@ -27,7 +27,7 @@ There are different options to use force-server:
     force-server [path] [port]
     ``` 
     
-    - **path**: path to the web root directory. The default is the current directory.
+    - **path**: path to the web root directory relative to the current directory. The default is the current directory.
     - **port**: server port number. The default is 5000.     
 
     Examples:
@@ -37,12 +37,12 @@ There are different options to use force-server:
     force-server
     ```
 
-    To start force-server on port 5000 (default) and serve files in the ***www** directory (relative to the current directory):
+    To start force-server on port 5000 (default) and serve files in the **www** directory (relative to the current directory):
     ```
     force-server www
     ```
 
-    To start force-server on port 8000 and serve files in the ***www** directory (relative to the current directory):
+    To start force-server on port 8000 and serve files in the **www** directory (relative to the current directory):
     ```
     force-server www 8000
     ```
