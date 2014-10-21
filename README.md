@@ -1,35 +1,66 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+# force-server
 
-# CORS Proxy
+force-server is a simple development server for Force.com. It provides two key features:
 
-This simple Node.js-based proxy allows your JavaScript application to call services that are hosted on a different domain and that don't support [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing). 
+- Proxy server to avoid cross domain policy issues when making REST API calls to Salesforce.
+- Local web server to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
 
-Because the proxy is itself CORS-enabled, your application and the proxy don't have to be hosted on the same 
-domain.
+## Install as a CLI
 
-This proxy was tested with the Salesforce.com REST API, but it should work with other services as well.
+1. Install the server
 
-## Installation
-
-There are different options to get your own instance of the CORS proxy up and running:
-
-1. Deploy to Heroku (easiest): click the 'Deploy to Heroku' button at the top of this page
-
-1. Install a local version
-    - Clone this repository
-    - Install the server dependencies
+    ```
+    npm install -g force-server
+    ```
     
-        ```
-        npm install
-        ```
-    
-    - Start the server
-         
-         ```
-         node server
-         ```
+    or (Unix-based operating systems)
 
-## Usage
+    ```
+    sudo npm install -g force-server
+    ```
+
+1. Start the server
+
+    ```
+    force-server [path] [port]
+    ``` 
+    
+    - path: path to the web root directory. The default is the current directory.
+    - port: server port number. The default is 5000.     
+
+
+## Install a local version
+
+1. Clone this repository
+
+    ```
+    git clone https://github.com/ccoenraets/force-server
+    ```
+
+1. Navigate to the force-server directory
+
+    ```
+    cd force-server
+    ```
+
+1. Install the server dependencies
+
+   ```
+   npm install
+   ```
+
+1. Start the server
+    
+    ```
+    node server [path] [port]
+    ```
+
+
+## Starting the server
+
+
+
+## Proxy Server Usage
 
 When making an API call using JavaScript (using XMLHTTPRequest, $.ajax, etc):
 
@@ -41,19 +72,16 @@ When making an API call using JavaScript (using XMLHTTPRequest, $.ajax, etc):
 
 1. Send the request as usual
 
+These steps are automated when using the [ForceJS](https://github.com/ccoenraets/forcejs) REST Library
 
-## CORS Headers
+## Uninstalling 
 
-The proxy allows **all** origins, methods, and headers. You probably want to lock this down in a production 
-environment.
-
-
-## Other Headers
-
-The proxy currently passes the "Authorization" header to the target endpoint. You can modify the proxy to pass
- additional headers (or all of them).
- 
-
-## Other Implementations
-
-Check out James Ward's [Saleforce CORS Proxy](https://github.com/jamesward/sf-cors-proxy) written in Scala.
+    ```
+    npm -g rm force-server
+    ```
+    
+    or 
+    
+    ```
+    sudo npm -g rm force-server
+    ```

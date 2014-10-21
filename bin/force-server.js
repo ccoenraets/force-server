@@ -3,11 +3,14 @@ var express = require('express'),
     path = require('path'),
     request = require('request'),
     bodyParser = require('body-parser'),
-    app = express();
+    app = express(),
+    root = process.argv[2] || '.',
+    port = process.argv[3] || 5000,
+    rootFullPath = path.join(__dirname, '../' + root);
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(rootFullPath));
 
 app.all('*', function (req, res, next) {
 
@@ -35,8 +38,7 @@ app.all('*', function (req, res, next) {
     }
 });
 
-app.set('port', process.env.PORT || 5000);
-
-app.listen(app.get('port'), function () {
-    console.log('Force server listening on port ' + app.get('port'));
+app.listen(port, function () {
+    console.log('force-server listening on port ' + port);
+    console.log('web root: ' + rootFullPath);
 });

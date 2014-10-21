@@ -1,6 +1,6 @@
 {
     "name": "force-server",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Development server for Force.com",
     "bin": {
         "force-server": "./bin/force-server.js"
@@ -10,6 +10,7 @@
         "url": "https://github.com/ccoenraets/force-server.git"
     },
     "keywords": [
+        "salesforce",
         "force.com",
         "proxy",
         "cors",
