@@ -80,6 +80,8 @@ When making an API call using JavaScript (using XMLHTTPRequest, $.ajax, etc):
 These steps are automated when using the [ForceJS](https://github.com/ccoenraets/forcejs) REST Library
 
 ## Uninstalling the CLI
+
+To uninstall the CLI:
     ```
     npm -g rm force-server
     ```
