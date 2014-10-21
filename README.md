@@ -82,12 +82,13 @@ These steps are automated when using the [ForceJS](https://github.com/ccoenraets
 ## Uninstalling the CLI
 
 To uninstall the CLI:
-    ```
-    npm -g rm force-server
-    ```
     
-    or 
-    
-    ```
-    sudo npm -g rm force-server
-    ```
+```
+npm -g rm force-server
+```
+
+or 
+
+```
+sudo npm -g rm force-server
+```
