@@ -108,3 +108,7 @@ or
 ```
 sudo npm -g rm force-server
 ```
+
+## Related Project
+
+[ForceJS](https://github.com/ccoenraets/forcejs) is a REST Library for Force.com that works together with force-server to provide an integrated devlopment experience when building apps that connect to Salesforce using REST services.
