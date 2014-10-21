@@ -7,7 +7,7 @@ var express = require('express'),
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '../')));
 
 app.all('*', function (req, res, next) {
 
@@ -22,7 +22,7 @@ app.all('*', function (req, res, next) {
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
-            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
+            res.status(500).send({ error: 'There is no Target-Endpoint header in the request' });
             return;
         }
         request({ url: targetURL + req.url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
@@ -35,8 +35,8 @@ app.all('*', function (req, res, next) {
     }
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 
 app.listen(app.get('port'), function () {
-    console.log('Proxy server listening on port ' + app.get('port'));
+    console.log('Force server listening on port ' + app.get('port'));
 });
