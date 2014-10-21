@@ -5,7 +5,9 @@ force-server is a simple development server for Force.com. It provides two key f
 - Proxy server to avoid cross domain policy issues when making REST API calls to Salesforce.
 - Local web server to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
 
-## Install as a CLI
+There are different options to use force-server:
+
+## Option 1: Install as a CLI
 
 1. Install the server
 
@@ -25,11 +27,11 @@ force-server is a simple development server for Force.com. It provides two key f
     force-server [path] [port]
     ``` 
     
-    - path: path to the web root directory. The default is the current directory.
-    - port: server port number. The default is 5000.     
+    - **path**: path to the web root directory. The default is the current directory.
+    - **port**: server port number. The default is 5000.     
 
 
-## Install a local version
+## Option 2: Install a local version
 
 1. Clone this repository
 
@@ -56,9 +58,12 @@ force-server is a simple development server for Force.com. It provides two key f
     ```
 
 
-## Starting the server
+## Option 3: Deploy to Heroku
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+Because force-server is itself CORS-enabled, your application and the proxy don't have to be hosted on the same 
+domain.
 
 ## Proxy Server Usage
 
