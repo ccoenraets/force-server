@@ -1,0 +1,29 @@
+{
+    "name": "force-server",
+    "version": "0.0.1",
+    "description": "Development server for Force.com",
+    "bin": {
+        "force-server": "./bin/force-server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ccoenraets/force-server.git"
+    },
+    "keywords": [
+        "force.com",
+        "proxy",
+        "cors",
+        "webserver"
+    ],
+    "author": "Christophe Coenraets <ccoenraets@gmail.com> (http://coenraets.org/)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ccoenraets/force-server/issues"
+    },
+    "homepage": "https://github.com/ccoenraets/force-server",
+    "dependencies": {
+        "express": "~4.9.8",
+        "body-parser": "~1.9.0",
+        "request": "~2.45.0"
+    }
+}
