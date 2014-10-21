@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var express = require('express'),
     path = require('path'),
     request = require('request'),
