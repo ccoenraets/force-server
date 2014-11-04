@@ -9,22 +9,21 @@ ForceServer is a simple development server aimed at providing a simple and integ
 
 Open a command prompt and type:
 
-    ```
-    npm install -g force-server
-    ```
-    
-    or (Unix-based systems)
-    
-    ```
-    sudo npm install -g force-server
-    ```
+```
+npm install -g force-server
+```
+
+or (Unix-based systems)
+
+```
+sudo npm install -g force-server
+```
 
 ## Sample App
 
 Create a file named index.html anywhere on you file system:
 
 ```
-[html]
 <html>
 <body>
 <ul id="list"></ul>
@@ -42,7 +41,6 @@ force.login(function() {
 </script>
 </body>
 </html>
-[/html]
 ```
 
 ## Run the Server
