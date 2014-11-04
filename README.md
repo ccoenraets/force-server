@@ -1,114 +1,68 @@
-# force-server
+# ForceServer
 
-force-server is a simple development server for Force.com. It provides two main features:
+ForceServer is a simple development server aimed at providing a simple and integrated developer experience when building applications that use Salesforce OAuth and REST services. ForceServer provides two main features:
 
-- **A Proxy Server**: allows you to avoid cross domain policy issues when making REST API calls to Salesforce
-- **A Local Web Server**: allows you to avoid cross domain policy issues when loading application resources using XMLHTTPRequest (templates, etc.) 
+- **A Proxy Server** to avoid cross-domain policy issues when invoking Salesforce REST services. (The Chatter API supports CORS, but other APIs don’t yet)
+- **A Local Web Server** to (1) serve the OAuth callback URL defined in your Connected App, and (2) serve the whole app during development and avoid cross-domain policy issues when loading files (for example, templates) from the local file system.
 
-There are different options to use force-server:
+## Installing ForceServer
 
-## Option 1: Install as a CLI
-
-1. Install the force-server CLI
+Open a command prompt and type:
 
     ```
     npm install -g force-server
     ```
     
     or (Unix-based systems)
-
+    
     ```
     sudo npm install -g force-server
     ```
 
-1. Start the server
+## Sample App
 
-    ```
-    force-server [webRoot] [port]
-    ``` 
+Create a file named index.html anywhere on you file system:
+
+```
+[html]
+<html>
+<body>
+<ul id="list"></ul>
+<script src="http://ccoenraets.github.io/forcejs/force.js"></script>
+<script>
+force.login(function() {
+    force.query('select id, Name from contact LIMIT 50', function (response) {
+        var str = '';
+        for (var i = 0; i < response.records.length; i++) {
+            str += '<li>' + response.records[i].Name + '</li>';
+        }
+        document.getElementById('list').innerHTML = str;
+    });
+});
+</script>
+</body>
+</html>
+[/html]
+```
+
+## Run the Server
+
+Navigate to the directory where you created index.html, and type:
+
+```
+force-server
+``` 
     
-    - **webRoot**: path to the web root directory relative to the current directory. The default is the current directory.
-    - **port**: server port number. The default is 5000.     
+This command will start the server on port 8200, and automatically load your app (http://localhost:8200) in a browser window. You'll see the Salesforce login window, and the list of contacts will appear after you log in.
 
-    Examples:
-
-    To start force-server on port 5000 (default) and serve files in the current directory:
-    ```
-    force-server
-    ```
-
-    To start force-server on port 5000 (default) and serve files in the **www** directory (relative to the current directory):
-    ```
-    force-server www
-    ```
-
-    To start force-server on port 8000 and serve files in the **www** directory (relative to the current directory):
-    ```
-    force-server www 8000
-    ```
-
-## Option 2: Install a local version
-
-1. Clone this repository
-
-    ```
-    git clone https://github.com/ccoenraets/force-server
-    ```
-
-1. Navigate to the force-server directory
-
-    ```
-    cd force-server
-    ```
-
-1. Install the server dependencies
-
-   ```
-   npm install
-   ```
-
-1. Start the server
-    
-    ```
-    node server [webRoot] [port]
-    ```
-
-
-## Option 3: Deploy to Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-Because force-server is itself CORS-enabled, your application and the proxy don't have to be hosted on the same 
-domain.
-
-## Proxy Server Usage
-
-When making an API call using JavaScript (using XMLHTTPRequest, $.ajax, etc):
-
-1. Substitute the actual service URL with the Proxy URL 
-
-1. Set the request method, query parameters, and body as usual
-
-1. Set the actual service URL in a header named 'Target-Endpoint'
-
-1. Send the request as usual
-
-These steps are automated when using the [ForceJS](https://github.com/ccoenraets/forcejs) REST Library
-
-## Uninstalling the CLI
-
-To uninstall the CLI:
-    
-```
-npm -g rm force-server
-```
-
-or 
+You can change the port number and the web root. Type the following command for more info:
 
 ```
-sudo npm -g rm force-server
+force-server --help
 ```
 
-## Related Project
+## Code Highlights
 
-[ForceJS](https://github.com/ccoenraets/forcejs) is a REST Library for Force.com that works together with force-server to provide an integrated devlopment experience when building apps that connect to Salesforce using REST services.
+1. The sample application above uses the <a href="">ForceJS</a> library. ForceJS and ForceServer are built to work closely together and provide an integrated developer experience.
+1. ForceJS uses a default connected app: No need to create a connected app to start development. You should however create your own connected app for production use.
+1. ForceServer automatically serves the OAuth callback URL: No need to create a callback HTML page during development.

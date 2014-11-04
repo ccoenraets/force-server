@@ -1,30 +1,26 @@
 var express = require('express'),
-    path = require('path'),
     request = require('request'),
     bodyParser = require('body-parser'),
+    open = require("open"),
+    argv = require('minimist')(process.argv.slice(2)),
     app = express(),
-    webRoot = '',
-    port = 5000,
-    webRootFullPath;
+    root = argv.r || argv.root || '.',
+    port = argv.p || argv.port || '8200',
+    debug = argv.d || argv.debug || false;
 
-
-if (process.argv[2]) {
-    webRoot = process.argv[2];
-} else if (process.env.ROOT) {
-    webRoot = process.env.ROOT;
-};
-
-if (process.argv[3]) {
-    port = process.argv[3];
-} else if (process.env.PORT) {
-    port = process.env.PORT;
-};
-
-webRootFullPath = path.join(process.cwd(), webRoot);
+if (argv.h || argv.help) {
+    console.log('USAGE Example:');
+    console.log('force-server --port 8200 --root /users/chris/projects --debug');
+    return;
+}
 
 app.use(bodyParser.json());
 
-app.use(express.static(webRootFullPath));
+// Server application
+app.use(express.static(root));
+
+// Serve default oauthcallback.html during development if one is not available in root
+app.use(express.static(__dirname + '/oauth'));
 
 app.all('*', function (req, res, next) {
 
@@ -39,20 +35,26 @@ app.all('*', function (req, res, next) {
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
-            res.status(500).send({ error: 'There is no Target-Endpoint header in the request' });
+            res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-Endpoint header in the request (Proxy Server)' });
             return;
         }
-        request({ url: targetURL + req.url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
+        var url = targetURL + req.url;
+        if (debug) console.log(req.method + ' ' + url);
+        if (debug) console.log('Request body:');
+        if (debug) console.log(req.body);
+        request({ url: url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
             function (error, response, body) {
                 if (error) {
                     console.error('error: ' + response.statusCode)
                 }
-//                console.log(body);
+                if (debug) console.log('Response body:');
+                if (debug) console.log(body);
             }).pipe(res);
     }
 });
 
 app.listen(port, function () {
     console.log('force-server listening on port ' + port);
-    console.log('web root: ' + webRootFullPath);
+    console.log('Root: ' + root);
+    open("http://localhost:" + port);
 });
