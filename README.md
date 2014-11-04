@@ -43,6 +43,13 @@ force.login(function() {
 </html>
 ```
 
+Code Highlights:
+
+1. The sample application above uses the <a href="">ForceJS</a> library. ForceJS and ForceServer are built to work closely together and provide an integrated developer experience.
+1. ForceJS uses a default connected app: No need to create a connected app to start development. You should however create your own connected app for production use.
+1. ForceServer automatically serves the OAuth callback URL: No need to create a callback HTML page during development.
+
+
 ## Run the Server
 
 Navigate to the directory where you created index.html, and type:
@@ -58,9 +65,3 @@ You can change the port number and the web root. Type the following command for 
 ```
 force-server --help
 ```
-
-## Code Highlights
-
-1. The sample application above uses the <a href="">ForceJS</a> library. ForceJS and ForceServer are built to work closely together and provide an integrated developer experience.
-1. ForceJS uses a default connected app: No need to create a connected app to start development. You should however create your own connected app for production use.
-1. ForceServer automatically serves the OAuth callback URL: No need to create a callback HTML page during development.
