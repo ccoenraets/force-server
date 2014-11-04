@@ -4,9 +4,9 @@ var express = require('express'),
     open = require("open"),
     argv = require('minimist')(process.argv.slice(2)),
     app = express(),
-    root = argv.r || argv.root || '.',
-    port = argv.p || argv.port || '8200',
-    debug = argv.d || argv.debug || false;
+    root = argv.r || argv.root || process.env.ROOT || '.',
+    port = argv.p || argv.port || process.env.PORT || '8200',
+    debug = argv.d || argv.debug || process.env.DEBUG || false;
 
 if (argv.h || argv.help) {
     console.log('USAGE Example:');

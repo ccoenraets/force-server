@@ -65,3 +65,24 @@ You can change the port number and the web root. Type the following command for 
 ```
 force-server --help
 ```
+
+## Uninstalling the CLI
+
+To uninstall the CLI:
+    
+```
+npm -g rm force-server
+```
+
+or 
+
+```
+sudo npm -g rm force-server
+```
+
+## Deploying ForceServer to Heroku 
+
+ForceServer is itself CORS-enabled. Instead of running it locally as a development server, you can deploy it to Heroku as your Proxy Server. Click the button below to deploy ForceServer to Heroku:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+

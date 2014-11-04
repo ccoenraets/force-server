@@ -5,7 +5,8 @@
     "logo": "https://developer.salesforce.com/resource/images/platform-force-cloud.png",
     "keywords": ["cors", "nodejs", "proxy", "salesforce", "rest", "force.com"],
     "env": {
-        "WEBROOT": ".",
-        "PORT": "80"
+        "ROOT": ".",
+        "PORT": "80",
+        "Debug": "False"
     }
 }
