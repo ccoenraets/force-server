@@ -82,7 +82,15 @@ sudo npm -g rm force-server
 
 ## Deploying ForceServer to Heroku 
 
-ForceServer is itself CORS-enabled. Instead of running it locally as a development server, you can deploy it to Heroku as your Proxy Server. Click the button below to deploy ForceServer to Heroku:
+ForceServer is CORS-enabled. Instead of running it locally as a development server, you can deploy it to Heroku as your Proxy Server. Click the button below to deploy ForceServer to Heroku:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+To use the Proxy Server deployed to Heroku, call the force.init() function before force.login() and specify your Proxy URL. For example, if the Heroku app you just created is **myproxy**:
+
+```
+force.init({
+    proxyURL: 'https://myproxy.herokuapp.com'
+});
+```
 
