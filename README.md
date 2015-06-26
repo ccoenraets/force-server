@@ -45,7 +45,7 @@ force.login(function() {
 
 Code Highlights:
 
-1. The sample application above uses the <a href="">ForceJS</a> library. ForceJS and ForceServer are built to work closely together and provide an integrated developer experience.
+1. The sample application above uses the <a href="https://github.com/ccoenraets/forcejs">ForceJS</a> library. ForceJS and ForceServer are built to work closely together and provide an integrated developer experience.
 1. ForceJS uses a default connected app: No need to create a connected app to start development. You should however create your own connected app for production use.
 1. ForceServer automatically serves the OAuth callback URL: No need to create a callback HTML page during development.
 
