@@ -4,13 +4,35 @@ var express = require('express'),
     open = require("open"),
     argv = require('minimist')(process.argv.slice(2)),
     app = express(),
-    root = argv.r || argv.root || process.env.ROOT || '.',
-    port = argv.p || argv.port || process.env.PORT || '8200',
-    debug = argv.d || argv.debug || process.env.DEBUG || false;
+
+// Load settings
+var root        = argv.r || argv.root || process.env.ROOT || '.',
+    port        = argv.p || argv.port || process.env.PORT || '8200',
+    debug       = argv.d || argv.debug || process.env.DEBUG || false,
+    ssl         = argv.s || argv.ssl || false,
+    ssl_key     = argv.sslkey || argv['ssl-key'] || 'ssl/server.key',
+    ssl_cert    = argv.sslcert || argv['ssl-cert'] || 'ssl/server.crt',
+    ssl_ca      = argv.sslca || argv['ssl-ca'] || 'ssl/ca.crt';
+    
+var credentials = (ssl ? {
+    key: fs.readFileSync(root + '/' + ssl_key),
+    cert: fs.readFileSync(root + '/' + ssl_cert),
+    ca: fs.readFileSync(root + '/' + ssl_ca),
+    requestCert: true,
+    rejectUnauthorized: false
+} : {});
 
 if (argv.h || argv.help) {
     console.log('USAGE Example:');
     console.log('force-server --port 8200 --root /users/chris/projects --debug');
+    console.log('ROOT\t\t-r, --root\t\tChange the root directory of running application. Default is .');
+    console.log('PORT\t\t-p, --port\t\tSet the port to access server. Default is 8200');
+    console.log('DEBUG\t\t-d, --debug\t\tShow debug of server when running. Disabled by default\n');
+    console.log('SSL\t\t-s, --ssl\t\tEnable the SSL Mode. Disabled by default');
+    console.log('SSL options:');
+    console.log('\t\t-sslkey, --ssl-key\tSet the key. Default is ssl/server.key');
+    console.log('\t\t-sslcert, --ssl-cert\tSet the cert. Default is ssl/server.crt');
+    console.log('\t\t-sslca, --ssl-ca\tSet the ca. Default is ssl/ca.crt');
     return;
 }
 
@@ -42,14 +64,23 @@ app.all('*', function (req, res, next) {
         if (debug) console.log(req.method + ' ' + url);
         if (debug) console.log('Request body:');
         if (debug) console.log(req.body);
-        request({ url: url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
-            function (error, response, body) {
-                if (error) {
-                    console.error('error: ' + response.statusCode)
-                }
-                if (debug) console.log('Response body:');
-                if (debug) console.log(body);
-            }).pipe(res);
+
+        request({
+            url: url, 
+            method: req.method, 
+            form: req.body, 
+            headers: {
+                'Authorization': req.header('Authorization'),
+		'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }, function (error, response, body) {
+            if (error) {
+                console.error('Error:' + response.statusCode);
+            }
+            if (debug) console.log('Response body:');
+            if (debug) console.log(body);
+        }).pipe(res);
+
     }
 });
 
