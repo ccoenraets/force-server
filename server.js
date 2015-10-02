@@ -24,7 +24,7 @@ var credentials = (ssl ? {
 
 if (argv.h || argv.help) {
     console.log('USAGE Example:');
-    console.log('force-server --port 8200 --root /users/chris/projects --debug');
+    console.log('forceserver --port 8200 --root ~/projects/force-server --debug [--ssl --ssl-key server.key --ssl-cert server.crt --ssl-ca ca.crt]\n');
     console.log('ROOT\t\t-r, --root\t\tChange the root directory of running application. Default is .');
     console.log('PORT\t\t-p, --port\t\tSet the port to access server. Default is 8200');
     console.log('DEBUG\t\t-d, --debug\t\tShow debug of server when running. Disabled by default\n');
