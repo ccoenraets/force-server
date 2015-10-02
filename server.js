@@ -1,9 +1,13 @@
+// Load dependencies
 var express = require('express'),
     request = require('request'),
-    bodyParser = require('body-parser'),
+    bodyparser = require('body-parser'),
+    querystring = require("querystring"),
     open = require("open"),
-    argv = require('minimist')(process.argv.slice(2)),
+    https = require('https'),
+    fs = require('fs'),
     app = express(),
+    argv = require('minimist')(process.argv.slice(2));
 
 // Load settings
 var root        = argv.r || argv.root || process.env.ROOT || '.',
@@ -13,7 +17,8 @@ var root        = argv.r || argv.root || process.env.ROOT || '.',
     ssl_key     = argv.sslkey || argv['ssl-key'] || 'ssl/server.key',
     ssl_cert    = argv.sslcert || argv['ssl-cert'] || 'ssl/server.crt',
     ssl_ca      = argv.sslca || argv['ssl-ca'] || 'ssl/ca.crt';
-    
+
+// SSL credentials
 var credentials = (ssl ? {
     key: fs.readFileSync(root + '/' + ssl_key),
     cert: fs.readFileSync(root + '/' + ssl_cert),
@@ -21,9 +26,10 @@ var credentials = (ssl ? {
     requestCert: true,
     rejectUnauthorized: false
 } : {});
+    
 
 if (argv.h || argv.help) {
-    console.log('USAGE Example:');
+    console.log('USAGE EXAMPLE:'
     console.log('forceserver --port 8200 --root ~/projects/force-server --debug [--ssl --ssl-key server.key --ssl-cert server.crt --ssl-ca ca.crt]\n');
     console.log('ROOT\t\t-r, --root\t\tChange the root directory of running application. Default is .');
     console.log('PORT\t\t-p, --port\t\tSet the port to access server. Default is 8200');
@@ -36,7 +42,7 @@ if (argv.h || argv.help) {
     return;
 }
 
-app.use(bodyParser.json());
+app.use(bodyparser.json());
 
 // Server application
 app.use(express.static(root));
@@ -44,7 +50,8 @@ app.use(express.static(root));
 // Serve default oauthcallback.html during development if one is not available in root
 app.use(express.static(__dirname + '/oauth'));
 
-app.all('*', function (req, res, next) {
+app.all('*', 
+function (req, res, next) {
 
     // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
     res.header("Access-Control-Allow-Origin", "*");
@@ -55,12 +62,15 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
+        // Allow to set target avoiding expose it
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
             res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-Endpoint header in the request (Proxy Server)' });
             return;
         }
+
         var url = targetURL + req.url;
+
         if (debug) console.log(req.method + ' ' + url);
         if (debug) console.log('Request body:');
         if (debug) console.log(req.body);
@@ -80,12 +90,12 @@ app.all('*', function (req, res, next) {
             if (debug) console.log('Response body:');
             if (debug) console.log(body);
         }).pipe(res);
-
     }
 });
 
-app.listen(port, function () {
-    console.log('force-server listening on port ' + port);
-    console.log('Root: ' + root);
+(ssl ? https.createServer(credentials, app) : app).listen(port, function() {
+    console.log('force-server is running on ' + (ssl ? 'SSL' : 'unsecure') + ' mode');
+    console.log('> listening on port: ' + port);
+    console.log('> root directory: ' + root);
     open("http://localhost:" + port);
 });
