@@ -2,9 +2,16 @@
 <body>
 <script>
     if (window.opener.force && window.opener.force.oauthCallback) {
+        // For Forcejs 0.6 backward compatibility
         window.opener.force.oauthCallback(window.location.href);
     } else if (window.opener.oauthCallback) {
+        // For Forceng 0.6 backward compatibility
         window.opener.oauthCallback(window.location.href);
+    } else {
+        // For Forcejs 0.7
+        var event = new CustomEvent("oauthCallback", {'detail': window.location.href});
+        window.opener.document.dispatchEvent(event);
+        window.close();
     }
     window.close();
 </script>

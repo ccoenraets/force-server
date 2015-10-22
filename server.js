@@ -35,7 +35,7 @@ app.all('*', function (req, res, next) {
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
-            res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-Endpoint header in the request (Proxy Server)' });
+            res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-URL header in the request (Proxy Server)' });
             return;
         }
         var url = targetURL + req.url;
