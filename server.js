@@ -32,6 +32,24 @@ app.all('*', function (req, res, next) {
     if (req.method === 'OPTIONS') {
         // CORS Preflight
         res.send();
+    } else if (req.body && req.body.grant_type === 'refresh_token') {
+        var targetURL = req.header('Target-URL');
+        if (!targetURL) {
+            res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-URL header in the request (Proxy Server)' });
+            return;
+        }
+        var url = targetURL + req.url;
+        if (debug) console.log(req.method + ' ' + url);
+        if (debug) console.log('Request body:');
+        if (debug) console.log(req.body);
+        request({ url: url, method: req.method, json: req.body },
+            function (error, response, body) {
+                if (error) {
+                    console.error('error: ' + response.statusCode)
+                }
+                if (debug) console.log('Response body:');
+                if (debug) console.log(body);
+            }).pipe(res);
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
