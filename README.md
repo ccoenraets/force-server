@@ -50,6 +50,9 @@ Code Highlights:
 1. ForceServer automatically serves the OAuth callback URL: No need to create a callback HTML page during development.
 
 
+## Edited version
+This version is edited - it resolves issues with token refreshing and adds support for Form Data (file upload as well) for localhost.
+
 ## Run the Server
 
 Navigate to the directory where you created index.html, and type:
