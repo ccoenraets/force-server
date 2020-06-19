@@ -17,7 +17,9 @@ if (argv.h || argv.help) {
 }
 
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '500kb'
+}));
 
 // Server application
 app.use(express.static(root));
@@ -48,7 +50,10 @@ app.all('*', function (req, res, next) {
         request({ url: url, method: req.method, json: req.body },
             function (error, response, body) {
                 if (error) {
-                    console.error('error: ' + response.statusCode)
+                    if (response) {
+                        console.error('error: ' + response.statusCode)
+                    }
+                    console.error(error);
                 }
                 if (debug) console.log('Response body:');
                 if (debug) console.log(body);
@@ -67,10 +72,16 @@ app.all('*', function (req, res, next) {
         if (debug) console.log(req.get('content-type'));
 
         if (!req.is('multipart/form-data')) {
-            request({ url: url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
+            request({ url: url, method: req.method, json: req.body, headers: {
+                'Authorization': req.header('Authorization'),
+                'Content-Length': req.header('Content-Length') ? req.header('Content-Length') : 0
+            } },
                 function (error, response, body) {
                     if (error) {
-                        console.error('error: ' + response.statusCode)
+                        if (response) {
+                            console.error('error: ' + response.statusCode)
+                        }
+                        console.error(error);
                     }
                     if (debug) console.log('Response body:');
                     if (debug) console.log(body);
@@ -81,7 +92,7 @@ app.all('*', function (req, res, next) {
             form.on('error', function(err) {
               console.log('Error parsing form: ' + err.stack);
             });
-            
+
             form.on('field', function(name, value) {
                 formData[name] = {
                     value: value,
@@ -100,8 +111,8 @@ app.all('*', function (req, res, next) {
                     }
                 };
             });
-             
-            // Close emitted after form parsed 
+
+            // Close emitted after form parsed
             form.on('close', function() {
                 request({ url: url, method: req.method, formData: formData, headers: {'Authorization': req.header('Authorization'), 'Content-Type': req.get('content-type')} },
                     function (error, response, body) {
@@ -112,9 +123,9 @@ app.all('*', function (req, res, next) {
                         if (debug) console.log(body);
                     }).pipe(res);
             });
-             
-            // Parse req 
-            form.parse(req);      
+
+            // Parse req
+            form.parse(req);
         }
     }
 });

@@ -1,6 +1,6 @@
 {
   "name": "force-server",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Development server for Force.com",
   "bin": {
     "force-server": "./bin/force-server.js"
