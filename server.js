@@ -1,6 +1,8 @@
 var express = require('express'),
     request = require('request'),
     bodyParser = require('body-parser'),
+    multiparty = require('multiparty'),
+    fs = require('fs'),
     open = require("open"),
     argv = require('minimist')(process.argv.slice(2)),
     app = express(),
@@ -14,7 +16,10 @@ if (argv.h || argv.help) {
     return;
 }
 
-app.use(bodyParser.json());
+
+app.use(bodyParser.json({
+  limit: '500kb'
+}));
 
 // Server application
 app.use(express.static(root));
@@ -32,6 +37,27 @@ app.all('*', function (req, res, next) {
     if (req.method === 'OPTIONS') {
         // CORS Preflight
         res.send();
+    } else if (req.body && req.body.grant_type === 'refresh_token') {
+        var targetURL = req.header('Target-URL');
+        if (!targetURL) {
+            res.status(500).send({ error: 'Resource Not Found (Web Server) or no Target-URL header in the request (Proxy Server)' });
+            return;
+        }
+        var url = targetURL + req.url;
+        if (debug) console.log(req.method + ' ' + url);
+        if (debug) console.log('Request body:');
+        if (debug) console.log(req.body);
+        request({ url: url, method: req.method, json: req.body },
+            function (error, response, body) {
+                if (error) {
+                    if (response) {
+                        console.error('error: ' + response.statusCode)
+                    }
+                    console.error(error);
+                }
+                if (debug) console.log('Response body:');
+                if (debug) console.log(body);
+            }).pipe(res);
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
@@ -42,14 +68,65 @@ app.all('*', function (req, res, next) {
         if (debug) console.log(req.method + ' ' + url);
         if (debug) console.log('Request body:');
         if (debug) console.log(req.body);
-        request({ url: url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
-            function (error, response, body) {
-                if (error) {
-                    console.error('error: ' + response.statusCode)
-                }
-                if (debug) console.log('Response body:');
-                if (debug) console.log(body);
-            }).pipe(res);
+        if (debug) console.log('Content type:');
+        if (debug) console.log(req.get('content-type'));
+
+        if (!req.is('multipart/form-data')) {
+            request({ url: url, method: req.method, json: req.body, headers: {
+                'Authorization': req.header('Authorization'),
+                'Content-Length': req.header('Content-Length') ? req.header('Content-Length') : 0
+            } },
+                function (error, response, body) {
+                    if (error) {
+                        if (response) {
+                            console.error('error: ' + response.statusCode)
+                        }
+                        console.error(error);
+                    }
+                    if (debug) console.log('Response body:');
+                    if (debug) console.log(body);
+                }).pipe(res);
+        } else {
+            var form = new multiparty.Form({autoFiles: true});
+            var formData = {};
+            form.on('error', function(err) {
+              console.log('Error parsing form: ' + err.stack);
+            });
+
+            form.on('field', function(name, value) {
+                formData[name] = {
+                    value: value,
+                    options: {
+                        contentType: 'application/json'
+                    }
+                };
+            });
+
+            form.on('file', function(name, file) {
+                formData[name] = {
+                    value: fs.createReadStream(file.path),
+                    options: {
+                        filename: file.originalFilename,
+                        contentType: file.headers['content-type']
+                    }
+                };
+            });
+
+            // Close emitted after form parsed
+            form.on('close', function() {
+                request({ url: url, method: req.method, formData: formData, headers: {'Authorization': req.header('Authorization'), 'Content-Type': req.get('content-type')} },
+                    function (error, response, body) {
+                        if (error) {
+                            console.error('error: ' + response.statusCode)
+                        }
+                        if (debug) console.log('Response body:');
+                        if (debug) console.log(body);
+                    }).pipe(res);
+            });
+
+            // Parse req
+            form.parse(req);
+        }
     }
 });
 

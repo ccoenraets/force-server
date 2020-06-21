@@ -1,13 +1,13 @@
 {
   "name": "force-server",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "Development server for Force.com",
   "bin": {
     "force-server": "./bin/force-server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ccoenraets/force-server.git"
+    "url": "https://github.com/niou-ns/force-server.git"
   },
   "keywords": [
     "salesforce",
@@ -17,17 +17,18 @@
     "webserver",
     "forcejs"
   ],
-  "author": "Christophe Coenraets <ccoenraets@gmail.com> (http://coenraets.org/)",
+  "author": "Christophe Coenraets <ccoenraets@gmail.com> (http://coenraets.org/); Edit: Krzysztof Pintscher <krzysztof@pintscher.pl>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ccoenraets/force-server/issues"
+    "url": "https://github.com/niou-ns/force-server/issues"
   },
-  "homepage": "https://github.com/ccoenraets/force-server",
+  "homepage": "https://github.com/niou-ns/force-server",
   "dependencies": {
-    "body-parser": "~1.9.0",
+    "body-parser": "^1.18.2",
     "express": "~4.9.8",
     "minimist": "^1.1.0",
+    "multiparty": "^4.1.3",
     "open": "0.0.5",
-    "request": "~2.45.0"
+    "request": "~2.83.0"
   }
 }
